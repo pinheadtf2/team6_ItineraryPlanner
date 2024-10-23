@@ -16,7 +16,7 @@ def getWeather(loc):
 
 
 def getAttractions(lat, long, loc):
-    attractions = get_nearby_attractions(getenv("RESTAURANTS_KEY"), latitude, longitude)
+    attractions = get_nearby_attractions(getenv("GOOGLEPLACES_KEY"), latitude, longitude)
     print('===========================================')
     print('Things to do around ' + loc + ':\n')
     count = 0
@@ -36,7 +36,7 @@ def getAttractions(lat, long, loc):
 
 
 def getFood(lat, long, loc):
-    restaurants = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), lat, long)
+    restaurants = find_nearby_restaurants(getenv("GOOGLEPLACES_KEY"), lat, long)
     print('===========================================')
     print('Places to eat ' + loc + ':\n')
     count = 0

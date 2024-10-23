@@ -81,6 +81,12 @@ def get_weather(key: str, location: str) -> Weather | bool:
     :return: A class containing the current weather and forecast.
     """
     try:
+        if location == "Menomonie":
+            print("Daring today, are we? \n")
+
+        if len(location) < 3:
+            raise ValueError("The location entered wasn't found. Please enter a valid location.")
+
         response = asyncio.run(current_forecast_weather(key, location))
         return response
     except ValueError as exception:

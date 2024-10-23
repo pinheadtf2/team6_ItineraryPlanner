@@ -1,14 +1,10 @@
 from os import getenv
+
 from dotenv import load_dotenv
 
-from weather import get_weather
-from resturaunts import find_nearby_restaurants
 from attractions import get_nearby_attractions
-
-att1 = ('name', 'rating', 'addr')
-att2 = ('name', 'rating', 'addr')
-att3 = ('name', 'rating', 'addr')
-tempAttrac = (att1, att2, att3)
+from resturaunts import find_nearby_restaurants
+from weather import get_weather
 
 
 def getWeather(loc):
@@ -31,11 +27,13 @@ def getAttractions(lat, long, loc):
         count += 1
         if count % 3 == 0:
             userChoice = input('Show more? (Y|n)')
-            if (userChoice == 'n'): break
-            elif (userChoice != 'Y' or userChoice != 'y'): 
+            if userChoice == 'n':
+                break
+            elif userChoice != 'Y' or userChoice != 'y':
                 print('-------------------------------------------')
-            elif (userChoice != 'n' and userChoice != 'Y'):
+            elif userChoice != 'n' and userChoice != 'Y':
                 print('Invalid input, continuing by default')
+
 
 def getFood(lat, long, loc):
     restaurants = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), lat, long)
@@ -48,11 +46,12 @@ def getFood(lat, long, loc):
         print('Address: ' + restaurant['address'] + '\n')
         count += 1
         if count % 3 == 0:
-            userChoice = input('Show more? (Y|n)')
-            if (userChoice == 'n'): break
-            elif (userChoice != 'Y' or userChoice != 'y'): 
+            user_choice = input('Show more? (Y|n)')
+            if user_choice == 'n':
+                break
+            elif user_choice != 'Y' or user_choice != 'y':
                 print('-------------------------------------------')
-            elif (userChoice != 'n' and userChoice != 'Y'):
+            elif user_choice != 'n' and user_choice != 'Y':
                 print('Invalid input, continuing by default')
 
 
@@ -64,7 +63,6 @@ if __name__ == '__main__':
         location = input('\nEnter your destination, or press q to quit: ')
         if location == 'q':
             break
-        print('Your travel information for ' + location + ':')
 
         # simple error handler, the get_weather function handles other error stuff inside its file
         try:
@@ -72,6 +70,8 @@ if __name__ == '__main__':
             assert weatherReport is not False
         except AssertionError:
             continue
+
+        print('Your travel information for ' + location + ':')
 
         # reuse the exact location that the weather api returns, making it easier to find locations in other api calls
         precise_location = f"{weatherReport.location['name']}, {weatherReport.location['region']}"

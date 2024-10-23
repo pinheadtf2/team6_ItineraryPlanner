@@ -1,8 +1,6 @@
 import asyncio
-from os import getenv
 
 import aiohttp
-from dotenv import load_dotenv
 
 
 class Weather:
@@ -75,16 +73,15 @@ async def current_forecast_weather(key: str, location: str) -> Weather:
             return constructed_class
 
 
-def get_weather(location: str) -> Weather | bool:
+def get_weather(key: str, location: str) -> Weather | bool:
     """
     Helper function that loads the key and submits the request to the Weather API. Call this to get the weather.
 
     :param location: The location you want to get the weather for.
     :return: A class containing the current weather and forecast.
     """
-    load_dotenv()
     try:
-        response = asyncio.run(current_forecast_weather(getenv("WEATHERAPI_KEY"), location))
+        response = asyncio.run(current_forecast_weather(key, location))
         return response
     except ValueError as exception:
         print(exception)
@@ -92,7 +89,3 @@ def get_weather(location: str) -> Weather | bool:
     except Exception as exception:
         print(f"Could not get current weather!\n{exception}")
         return False
-
-
-if __name__ == '__main__':
-    get_weather("g")  # purely used for testing

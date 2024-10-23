@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
         # simple error handler, the get_weather function handles other error stuff inside its file
         try:
-            weatherReport = get_weather(location)
+            weatherReport = get_weather(getenv("WEATHERAPI_KEY"), location)
             assert weatherReport is not False
         except AssertionError:
             continue

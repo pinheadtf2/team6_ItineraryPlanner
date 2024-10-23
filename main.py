@@ -1,4 +1,8 @@
+from os import getenv
+from dotenv import load_dotenv
+
 from weather import get_weather
+from resturaunts import find_nearby_restaurants
 
 att1 = ('name', 'rating', 'addr')
 att2 = ('name', 'rating', 'addr')
@@ -32,24 +36,32 @@ def getFood(loc):
         print('Address: ' + att[2] + '\n')
 
 
-print('Welcome to Trip Planner Deluxe™')
-while True:
-    location = input('\nEnter your destination, or press q to quit: ')
-    if location == 'q':
-        break
-    print('Your travel information for ' + location + ':')
+if __name__ == '__main__':
+    load_dotenv()
 
-    # simple error handler, the get_weather function handles other error stuff inside its file
-    try:
-        weatherReport = get_weather(location)
-        assert weatherReport is not False
-    except AssertionError:
-        continue
+    print('Welcome to Trip Planner Deluxe™')
+    while True:
+        location = input('\nEnter your destination, or press q to quit: ')
+        if location == 'q':
+            break
+        print('Your travel information for ' + location + ':')
 
-    # reuse the exact location that the weather api returns, making it easier to find locations in other api calls
-    precise_location = f"{weatherReport.location['name']}, {weatherReport.location['region']}"
+        # simple error handler, the get_weather function handles other error stuff inside its file
+        try:
+            weatherReport = get_weather(location)
+            assert weatherReport is not False
+        except AssertionError:
+            continue
 
-    # prints each location
-    getWeather(weatherReport)
-    # getAttractions(precise_location)
-    # getFood(precise_location)
+        # reuse the exact location that the weather api returns, making it easier to find locations in other api calls
+        precise_location = f"{weatherReport.location['name']}, {weatherReport.location['region']}"
+        latitude, longitude = weatherReport.location["lat"], weatherReport.location["lon"]
+
+        # get restauraunts stuff
+        results = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), latitude, longitude)
+        print(results)
+
+        # prints each location
+        getWeather(weatherReport)
+        # getAttractions(precise_location)
+        # getFood(precise_location)

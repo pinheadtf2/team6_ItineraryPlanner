@@ -1,9 +1,9 @@
 import requests
 
 
-def find_nearby_restaurants(api_key, location, radius=1000, type='restaurant'):
+def find_nearby_restaurants(api_key, latitude, longitude, radius=1000):
     # Define the API URL for nearby search
-    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&radius={radius}&type={type}&key={api_key}"
+    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius={radius}&type=restaurant&key={api_key}"
 
     # Make the request to Google Places API
     response = requests.get(url)
@@ -29,23 +29,3 @@ def find_nearby_restaurants(api_key, location, radius=1000, type='restaurant'):
     else:
         print("Error fetching data from Google Places API")
         return []
-
-
-# Prompt user for API key and location
-api_key = input("Please enter your Google API key: ")
-latitude = input("Please enter the latitude: ")
-longitude = input("Please enter the longitude: ")
-
-# Combine latitude and longitude into one string
-location = f"{latitude},{longitude}"
-
-# Call the function to get the restaurant data
-restaurants = find_nearby_restaurants(api_key, location)
-
-# Print the list of nearby restaurants
-if restaurants:
-    for r in restaurants:
-        print(r)
-else:
-    print("No restaurants found.")
-

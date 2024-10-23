@@ -77,7 +77,6 @@ if __name__ == '__main__':
         precise_location = f"{weatherReport.location['name']}, {weatherReport.location['region']}"
         latitude, longitude = weatherReport.location["lat"], weatherReport.location["lon"]
         attractions = get_nearby_attractions(getenv("ATTRACTIONS_KEY"), latitude, longitude)
-        print(attractions)
         # prints each location
         getWeather(weatherReport)
         getAttractions(latitude, longitude, precise_location)

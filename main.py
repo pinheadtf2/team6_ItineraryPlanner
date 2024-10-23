@@ -19,22 +19,41 @@ def getWeather(loc):
     print(f'Chance of Precipitation ({loc.precipitation_type}): {loc.precipitation_chance}%')
 
 
-def getAttractions(loc):
+def getAttractions(lat, long, loc):
+    attractions = get_nearby_attractions(getenv("ATTRACTIONS_KEY"), latitude, longitude)
     print('===========================================')
     print('Things to do around ' + loc + ':\n')
-    for att in tempAttrac:
-        print('Name: ' + att[0])
-        print('Rating: ' + att[1])
-        print('Address: ' + att[2] + '\n')
+    count = 0
+    for attraction in attractions:
+        print('Name: ' + attraction['name'])
+        print(f'Rating: {attraction['rating']}')
+        print('Address: ' + attraction['address'] + '\n')
+        count += 1
+        if count % 3 == 0:
+            userChoice = input('Show more? (Y|n)')
+            if (userChoice == 'n'): break
+            elif (userChoice != 'Y' or userChoice != 'y'): 
+                print('-------------------------------------------')
+            elif (userChoice != 'n' and userChoice != 'Y'):
+                print('Invalid input, continuing by default')
 
-
-def getFood(loc):
+def getFood(lat, long, loc):
+    restaurants = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), lat, long)
     print('===========================================')
-    print('Places to eat in ' + loc + ':\n')
-    for att in tempAttrac:
-        print('Name: ' + att[0])
-        print('Rating: ' + att[1])
-        print('Address: ' + att[2] + '\n')
+    print('Places to eat ' + loc + ':\n')
+    count = 0
+    for restaurant in restaurants:
+        print('Name: ' + restaurant['name'])
+        print(f'Rating: {restaurant['rating']}')
+        print('Address: ' + restaurant['address'] + '\n')
+        count += 1
+        if count % 3 == 0:
+            userChoice = input('Show more? (Y|n)')
+            if (userChoice == 'n'): break
+            elif (userChoice != 'Y' or userChoice != 'y'): 
+                print('-------------------------------------------')
+            elif (userChoice != 'n' and userChoice != 'Y'):
+                print('Invalid input, continuing by default')
 
 
 if __name__ == '__main__':
@@ -57,18 +76,9 @@ if __name__ == '__main__':
         # reuse the exact location that the weather api returns, making it easier to find locations in other api calls
         precise_location = f"{weatherReport.location['name']}, {weatherReport.location['region']}"
         latitude, longitude = weatherReport.location["lat"], weatherReport.location["lon"]
-
-        # get restauraunts stuff
-        restaurants = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), latitude, longitude)
         attractions = get_nearby_attractions(getenv("ATTRACTIONS_KEY"), latitude, longitude)
-        
-
+        print(attractions)
         # prints each location
         getWeather(weatherReport)
-        # getAttractions(precise_location)
-        # getFood(precise_location)
-        print(restaurants)
-        print(attractions)
-
-        for diner in restaurants:
-            print(diner['name'])
+        getAttractions(latitude, longitude, precise_location)
+        getFood(latitude, longitude, precise_location)

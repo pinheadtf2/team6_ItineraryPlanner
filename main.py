@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 from weather import get_weather
 from resturaunts import find_nearby_restaurants
+from attractions import get_nearby_attractions
 
 att1 = ('name', 'rating', 'addr')
 att2 = ('name', 'rating', 'addr')
@@ -58,10 +59,16 @@ if __name__ == '__main__':
         latitude, longitude = weatherReport.location["lat"], weatherReport.location["lon"]
 
         # get restauraunts stuff
-        results = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), latitude, longitude)
-        print(results)
+        restaurants = find_nearby_restaurants(getenv("RESTAURANTS_KEY"), latitude, longitude)
+        attractions = get_nearby_attractions(getenv("ATTRACTIONS_KEY"), latitude, longitude)
+        
 
         # prints each location
         getWeather(weatherReport)
         # getAttractions(precise_location)
         # getFood(precise_location)
+        print(restaurants)
+        print(attractions)
+
+        for diner in restaurants:
+            print(diner['name'])

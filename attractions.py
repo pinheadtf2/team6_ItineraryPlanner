@@ -1,12 +1,12 @@
 import requests
 
 
-def get_nearby_attractions(api_key, latitude, longitude, radius=1000, place_type='tourist_attraction'):
+def get_nearby_attractions(api_key, latitude, longitude, radius=1000):
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     params = {
         'location': f"{latitude},{longitude}",
         'radius': radius,
-        'type': place_type,
+        'type': 'tourist_attraction',
         'key': api_key
     }
     try:

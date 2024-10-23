@@ -20,7 +20,7 @@ def getWeather(loc):
 
 
 def getAttractions(lat, long, loc):
-    attractions = get_nearby_attractions(getenv("ATTRACTIONS_KEY"), latitude, longitude)
+    attractions = get_nearby_attractions(getenv("RESTAURANTS_KEY"), latitude, longitude)
     print('===========================================')
     print('Things to do around ' + loc + ':\n')
     count = 0
@@ -76,7 +76,6 @@ if __name__ == '__main__':
         # reuse the exact location that the weather api returns, making it easier to find locations in other api calls
         precise_location = f"{weatherReport.location['name']}, {weatherReport.location['region']}"
         latitude, longitude = weatherReport.location["lat"], weatherReport.location["lon"]
-        attractions = get_nearby_attractions(getenv("ATTRACTIONS_KEY"), latitude, longitude)
         # prints each location
         getWeather(weatherReport)
         getAttractions(latitude, longitude, precise_location)
